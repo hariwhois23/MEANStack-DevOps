@@ -1,47 +1,28 @@
-version: "3.9"
-
+version: '3'
 services:
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - mean-nw
-
   backend:
-    build: ./backend
-    container_name: mean-backend
-    restart: always
+    build:
+      context: ./backend
     ports:
       - "8080:8080"
-    depends_on:
-      - mongo
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/dd_db
     networks:
-      - mean-nw
-
+    - mean-network
   frontend:
-    build: ./frontend
-    container_name: mean-frontend
-    restart: always
+    build:
+      context: ./frontend
     ports:
-      - "8081:8081" 
-    depends_on:
-      - backend
-    environment:
-      - API_URL=http://127.0.0.1:8080/api/tutorials
+    - "8081:8081"
     networks:
-      - mean-nw
+    - mean-network
+  
+  mongo:
+    image: mongo:latest
+    networks: 
+    - mean-network
 
-volumes:
-  mongo_data:
-
-networks:
-  mean-nw:
-    driver: bridge
-
+networks: 
+  mean-network:
+    driver: bridge 
+   
+    
+    
