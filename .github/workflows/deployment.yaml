@@ -21,6 +21,14 @@ jobs:
       run: |
         docker build -t ${{ secrets.DOCKER_USERNAME }}/mean:backend ./crud-dd-task-mean-app-2/backend
 
-    - name: Push Docker Image
+    - name: Push Docker backend Image to registry
       run: |
         docker push ${{ secrets.DOCKER_USERNAME }}/mean:backend
+
+    - name: Build Docker Image for frontend
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/mean:frontend ./crud-dd-task-mean-app-2/frontend
+
+    - name: Push Docker Image
+      run: |
+        docker push ${{ secrets.DOCKER_USERNAME }}/mean:frontend
